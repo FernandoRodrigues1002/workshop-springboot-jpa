@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.nando.spring1.entities.Category;
 import com.nando.spring1.entities.Order;
+import com.nando.spring1.entities.OrderItem;
 import com.nando.spring1.entities.Product;
 import com.nando.spring1.entities.User;
 import com.nando.spring1.entities.enums.OrderStatus;
 import com.nando.spring1.repositories.CategoryRepository;
+import com.nando.spring1.repositories.OrderItemRepository;
 import com.nando.spring1.repositories.OrderRepository;
 import com.nando.spring1.repositories.ProductRepository;
 import com.nando.spring1.repositories.UserRepository;
@@ -33,6 +35,9 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -74,5 +79,12 @@ public class TestConfig implements CommandLineRunner {
         p5.getCategories().add(cat2);
 
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
+
+        OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+        OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+        OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+        OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+
+        orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
     }
 }
