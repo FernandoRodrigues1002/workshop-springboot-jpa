@@ -28,6 +28,7 @@ public class User implements Serializable {
     private String phone;
     private String password;
 
+    //um usuario pode fazer varios pedidos
     @JsonIgnore
     @OneToMany(mappedBy= "client")
     private List<Order> orders = new ArrayList<>();//coleção de pedidos, somente get

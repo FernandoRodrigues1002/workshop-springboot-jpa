@@ -28,13 +28,14 @@ public class Product implements Serializable {
     private Double price;
     private String imgUrl;
 
-    @ManyToMany//coleção de categorias
+    @ManyToMany//um produto pode ter varias categorias e as caetegorias podem ter varios produtos
     @JoinTable(name = "tb_product_category",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
     //id da classe order item + o atributo da orderPk
+    //um produto pode estar em varios pedidos
     @OneToMany(mappedBy= "id.product")
     private Set<OrderItem> items = new HashSet<>();
 
@@ -94,6 +95,7 @@ public class Product implements Serializable {
         return categories;
     }
 
+    //retorna todos os pedidos em que o produto aparece
     @JsonIgnore
     public Set<Order> getOrders(){
         Set<Order> set = new HashSet<>();
