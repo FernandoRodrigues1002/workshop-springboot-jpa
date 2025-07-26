@@ -44,10 +44,16 @@ public class UserResource {
         return ResponseEntity.created(uri).body(obj);
     }
 
-    @DeleteMapping //a resposta não vai retornar nada
+    @DeleteMapping(value = "/{id}") //a resposta não vai retornar nada
     public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(value="{id}")
+    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User obj){
+        obj = service.update( id, obj);
+        return ResponseEntity.ok().body(obj);
     }
 
 }
