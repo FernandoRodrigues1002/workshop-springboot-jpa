@@ -13,6 +13,8 @@ import com.nando.spring1.repositories.UserRepository;
 import com.nando.spring1.services.exceptions.DatabaseException;
 import com.nando.spring1.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class UserService {
 
@@ -39,17 +41,21 @@ public class UserService {
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException(id);
 
-        } catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             throw new DatabaseException(e.getMessage());
-            
+
         }
     }
 
     public User update(Long id, User obj) {
-        User entity = userRepository.getReferenceById(id);
-        //atualizando o entity com base no obj
-        updateData(entity, obj);
-        return userRepository.save(entity);
+        try {
+            User entity = userRepository.getReferenceById(id);
+            //atualizando o entity com base no obj
+            updateData(entity, obj);
+            return userRepository.save(entity);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException(id);
+        }
 
     }
 
